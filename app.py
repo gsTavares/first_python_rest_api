@@ -26,7 +26,7 @@ def create_store():
 
     for store in stores.values():
         if store_data["name"] == store["name"]:
-            abort(400, message=f"Store {store_data["name"]!r} already exists!")
+            abort(400, message=f"Store already exists!")
 
     store_id = uuid.uuid4().hex
     store = {**store_data, "id": store_id}
@@ -50,7 +50,7 @@ def create_item():
 
     for item in items.values():
         if item_data["name"] == item["name"] and item_data["store_id"] == item["store_id"]:
-            abort(400, message=f"Item {item["name"]!r} already exists!")
+            abort(400, message=f"Item already exists!")
 
     if item_data["store_id"] not in stores:
         abort(404, message="Store not found!")
