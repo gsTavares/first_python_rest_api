@@ -1,13 +1,13 @@
 from marshmallow import Schema, fields
 
 class PlainItemSchema(Schema):
-    id = fields.Str(dump_only=True) # dump_only means that this field just returns from API
+    id = fields.Int(dump_only=True) # dump_only means that this field just returns from API
     name = fields.Str(required=True)
     price = fields.Float(required=True)
-    store_id = fields.Str(required=True)
+    store_id = fields.Int(required=True)
 
 class PlainStoreSchema(Schema):
-    id = fields.Str(dump_only=True)
+    id = fields.Int(dump_only=True)
     name = fields.Str(required=True)
 
 class ItemUpdateSchema(Schema):
