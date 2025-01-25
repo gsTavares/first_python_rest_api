@@ -10,19 +10,21 @@ blp = Blueprint("items", __name__, description="Operations on items")
 @blp.route("/item/<string:item_id>")
 class Item(MethodView):
     
+    @blp.response(200, ItemSchema)
     def get(self, item_id):
         try:
-            return {"item": items[item_id]}, 200
+            return items[item_id]
         except KeyError:
             abort(404, message="Item not found!")
 
-    @blp.arguments(ItemUpdateSchema)        
+    @blp.arguments(ItemUpdateSchema)
+    @blp.response (200, ItemSchema)       
     def put(self, item_data, item_id):
         try:
             item = items[item_id]
             item |= item_data # in-place modification
 
-            return {"item": item}, 200
+            return item
         except KeyError:
             abort(404, message="Item not found!")
     
@@ -35,10 +37,13 @@ class Item(MethodView):
 
 @blp.route("/item")
 class ItemList(MethodView):
+
+    @blp.response(200, ItemSchema(many=True))
     def get(self):
-        return {"items": list(items.values())}
+        return items.values()
     
     @blp.arguments(ItemSchema)
+    @blp.response(201, ItemSchema)
     def post(self, item_data):
         for item in items.values():
             if item_data["name"] == item["name"] and item_data["store_id"] == item["store_id"]:
@@ -51,6 +56,6 @@ class ItemList(MethodView):
         item = {**item_data, "id": item_id}
         items[item_id] = item
         
-        return item, 201
+        return item
     
     
