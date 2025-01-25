@@ -1,7 +1,7 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from schemas import PlainStoreSchema
+from schemas import PlainStoreSchema, StoreSchema
 
 from db import db
 from models import StoreModel
@@ -30,7 +30,7 @@ class StoreList(MethodView):
         return StoreModel.query.all()
     
     @blp.arguments(PlainStoreSchema)
-    @blp.response(201, PlainStoreSchema)
+    @blp.response(201, StoreSchema)
     def post(self, store_data):
         store = StoreModel(**store_data)
         try:

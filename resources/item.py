@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from db import db
 from models import ItemModel
-from schemas import PlainItemSchema, ItemUpdateSchema
+from schemas import PlainItemSchema, ItemSchema, ItemUpdateSchema
 
 blp = Blueprint("items", __name__, description="Operations on items")
 
@@ -46,7 +46,7 @@ class ItemList(MethodView):
         return ItemModel.query.all()
     
     @blp.arguments(PlainItemSchema)
-    @blp.response(201, PlainItemSchema)
+    @blp.response(201, ItemSchema)
     def post(self, item_data):
         item = ItemModel(**item_data)
 
