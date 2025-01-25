@@ -1,5 +1,3 @@
-import uuid
-from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
@@ -42,7 +40,7 @@ class ItemList(MethodView):
 
     @blp.response(200, PlainItemSchema(many=True))
     def get(self):
-        return items.values()
+        return ItemModel.query.all()
     
     @blp.arguments(PlainItemSchema)
     @blp.response(201, PlainItemSchema)
