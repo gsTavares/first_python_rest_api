@@ -11,13 +11,13 @@ blp = Blueprint("items", __name__, description="Operations on items")
 @blp.route("/item/<string:item_id>")
 class Item(MethodView):
     
-    @blp.response(200, PlainItemSchema)
+    @blp.response(200, ItemSchema)
     def get(self, item_id):
         item = ItemModel.query.get_or_404(item_id)
         return item
 
     @blp.arguments(ItemUpdateSchema)
-    @blp.response (200, PlainItemSchema)       
+    @blp.response (200, ItemSchema)       
     def put(self, item_data, item_id):
         item = ItemModel.query.get(item_id)
         if item:
@@ -41,7 +41,7 @@ class Item(MethodView):
 @blp.route("/item")
 class ItemList(MethodView):
 
-    @blp.response(200, PlainItemSchema(many=True))
+    @blp.response(200, ItemSchema(many=True))
     def get(self):
         return ItemModel.query.all()
     
